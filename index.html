@@ -2,29 +2,185 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HASHU-MD | BACKGROUND MONITOR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HASHU-MD | ULTRA-FAST REQUESTER</title>
     <style>
-        body { background: #050505; color: #00ff41; font-family: 'Courier New', monospace; padding: 20px; }
-        .box { border: 1px solid #00ff41; padding: 20px; background: #0d0d0d; box-shadow: 0 0 15px rgba(0,255,65,0.2); }
-        h1 { text-align: center; border-bottom: 2px solid #00ff41; padding-bottom: 10px; }
-        #status { color: #fff; font-size: 14px; margin-bottom: 10px; }
-        .log-container { background: #000; height: 350px; overflow-y: auto; border: 1px inset #00ff41; padding: 10px; }
-        .entry { margin-bottom: 8px; font-size: 13px; border-bottom: 1px solid #111; }
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --neon-green: #00ff41;
+            --dark-bg: #050505;
+            --panel-bg: #0d0d0d;
+            --text-gray: #888;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--neon-green);
+            font-family: 'Share Tech Mono', monospace;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            background: var(--panel-bg);
+            border: 1px solid var(--neon-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            padding: 20px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid var(--neon-green);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 10px;
+            padding: 5px;
+            background: #111;
+            border: 1px solid #222;
+        }
+
+        #log-screen {
+            background: #000;
+            height: 400px;
+            overflow-y: auto;
+            border: 1px inset var(--neon-green);
+            padding: 15px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            animation: slideIn 0.2s ease-out;
+        }
+
+        .p-code {
+            color: #fff;
+            background: #222;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            border: 1px solid var(--neon-green);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        #log-screen::-webkit-scrollbar { width: 4px; }
+        #log-screen::-webkit-scrollbar-thumb { background: var(--neon-green); }
+
+        .footer {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>CYBER REQUESTER MONITOR</h1>
-        <div id="status">BACKGROUND ENGINE: ACTIVE ✅</div>
-        <div class="log-container" id="logs">
-            <div class="entry">Waiting for background data... Logs will appear here as GitHub Actions run.</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>HASHU-MD AUTO REQUESTER</h1>
+        </div>
+
+        <div class="status-bar">
+            <span>TARGET: unity.up.railway.app</span>
+            <span>DELAY: 1.5s</span>
+            <span id="cycle-count">CYCLE: 0</span>
+        </div>
+
+        <div id="log-screen">
+            <div style="color: #fff;">[SYSTEM] INITIALIZING CYBER PROTOCOL...</div>
+        </div>
+
+        <div class="footer">
+            CREATED BY MR HASHUU | DARK CYBER LEADERZ
         </div>
     </div>
 
     <script>
-        // Meka close thibbath requests GitHub Actions haraha yanawa.
-        // Oya logs save karanna external DB ekak use karanawanam eka mekata link karanna puluwan.
-        console.log("Background requester started via GitHub Action trigger.");
+        const targetUrl = "https://unity.up.railway.app/pair";
+        const numbers = [
+            "94743126513", "94763126513", "94740137623", "94741234556", "94715865463",
+            "94701234567", "94711234567", "94721234567", "94751234567", "94761234567",
+            "94771234567", "94781234567", "94749876543", "94769876543", "94709876543",
+            "94719876543", "94729876543", "94759876543", "94791234567", "94744445555",
+            "94766667777", "94700001111", "94711112222", "94788889999", "94741112223",
+            "94761112224", "94701112225", "94711112226", "94721112227", "94751112228"
+        ];
+
+        const logScreen = document.getElementById('log-screen');
+        const cycleElement = document.getElementById('cycle-count');
+        let cycles = 0;
+
+        function addLog(num, result, isError = false) {
+            const time = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            
+            // Response eka pairing code ekak nam eka highlight karanawa
+            let cleanResult = result.length > 15 ? result.substring(0, 15) + "..." : result;
+            
+            div.innerHTML = `
+                <span>[${time}] <span style="color:var(--text-gray)">TARGET:</span> ${num}</span>
+                <span class="${isError ? 'status-error' : ''}" style="color:${isError ? '#ff3e3e' : 'var(--neon-green)'}">
+                    ${isError ? 'FAIL' : 'CODE: <span class="p-code">' + result + '</span>'}
+                </span>
+            `;
+            
+            logScreen.prepend(div);
+            if (logScreen.children.length > 60) logScreen.removeChild(logScreen.lastChild);
+        }
+
+        async function startEngine() {
+            while (true) {
+                cycles++;
+                cycleElement.innerText = `CYCLE: ${cycles}`;
+                for (let num of numbers) {
+                    try {
+                        const response = await fetch(`${targetUrl}?number=${num}`);
+                        const code = await response.text(); 
+                        addLog(num, code || "PENDING");
+                    } catch (err) {
+                        addLog(num, "ERR_CONN", true);
+                    }
+                    // Speed set to 1.5 seconds
+                    await new Promise(r => setTimeout(r, 1500));
+                }
+            }
+        }
+
+        // Start when page loads
+        window.onload = startEngine;
     </script>
 </body>
-</html>
+    </html>
